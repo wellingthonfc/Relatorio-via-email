@@ -1,2 +1,74 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+import pyautogui
+import pyperclip
+import time
+
+pyautogui.PAUSE = 1
+
+# pyautogui.click (clicar com o mouse)
+# pyautogui.press (Apertar 1 tecla)
+# pyautogui.hotkey (Usar um conjunto de teclas)
+# pyautogui.write (Escreve um texto)
+
+
+#Passo 1:Entrar no sistema da empresa (no nosso caso é o link do drive)
+pyautogui.hotkey("ctrl","t")
+pyperclip.copy("https://drive.google.com/drive/folders/149xknr9JvrlEnhNWO49zPcw0PW5icxga")
+pyautogui.hotkey("ctrl", "v")
+pyautogui.press("enter")
+time.sleep(5)
+
+#Passo 2:Navegar no sistema e encontrar a base de vendas (entrar na pasta exportar)
+pyautogui.click(x=149, y=270, clicks=2)
+time.sleep(2)
+
+
+#Passo 3:Fazer o download da base de vendas
+pyautogui.click(x=89, y=263)
+
+#Passo 4:Importar a base de vendas pro python
+import pandas as pd
+tabela = pd.read_excel(r"C:\Users\Cliente\Downloads\Vendas - Dez.xlsx")
+display(tabela)
+
+#Passo 5:Calcular os indicadores da empresa
+faturamento = tabela["Valor Final"].sum()
+print(faturamento)
+quantidade = tabela["Quantidade"].sum()
+print(quantidade)
+
+#Passo 6:Enviar o e-mail para a diretoria com os indicadores de vendas
+#Abrir aba
+pyautogui.hotkey("ctrl","t")
+#clicar no link do email - https://outlook.live.com/mail/0/
+pyperclip.copy("https://outlook.live.com/mail/0/")
+pyautogui.hotkey("ctrl","v")
+pyautogui.press("enter")
+time.sleep(5)
+#clicar no botão escrever
+pyautogui.click(x=180, y=141)
+#preencher as infomrações do e-mail
+pyautogui.write("emilynutufv@gmail.com")
+pyautogui.press("tab") #selecionar o email
+pyautogui.press("tab") #pular para o campo de assunto
+pyperclip.copy("Relatório de vendas")
+pyautogui.hotkey("ctrl","v")
+pyautogui.press("tab") #pular para o campo de corpo do email
+texto = f"""
+Prezados.
+Boa tarde!
+Segue o relatório de vendas.
+Faturamento:R$:{faturamento:,.2f}
+Quantidade de produtos vendidos:{quantidade:,}
+Qualquer duvida estou á disposição.
+att.,
+Wellingthon Fantuzzi Coelho
+"""
+#formatação dos numeros(moeda,dinheiro)
+pyperclip.copy(texto)
+pyautogui.hotkey("ctrl","v")
+
+#enviar o email
+pyautogui.hotkey("ctrl","enter")
+
+time.sleep(10)
+pyautogui.position()
