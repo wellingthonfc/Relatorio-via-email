@@ -47,7 +47,7 @@ time.sleep(5)
 #clicar no botão escrever
 pyautogui.click(x=180, y=141)
 #preencher as infomrações do e-mail
-pyautogui.write("emilynutufv@gmail.com")
+pyautogui.write("automacaoteste@gmail.com")
 pyautogui.press("tab") #selecionar o email
 pyautogui.press("tab") #pular para o campo de assunto
 pyperclip.copy("Relatório de vendas")
